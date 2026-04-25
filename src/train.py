@@ -1,14 +1,19 @@
 import pandas as pd
 import tensorflow as tf
-
+from tensorflow.keras.utils import register_keras_serializable
 from sklearn.utils import class_weight
 import numpy as np
 import os
 os.environ["PYTHONUTF8"] = "1"
 import re
+import shutil
+
+import tensorflow as tf
+print(tf.__version__)
+print(tf.keras)
 
 import string
-from keras.saving import register_keras_serializable
+
 
 @register_keras_serializable()
 def custom_standardization(input_data):
@@ -100,6 +105,9 @@ model.fit(
     ),
     class_weight=class_weights
 )
+
+if os.path.exists("models/spam_model.keras"):
+    shutil.rmtree("models/spam_model.keras", ignore_errors=True)
 
 # Save model
 model.save("models/spam_model.keras")
