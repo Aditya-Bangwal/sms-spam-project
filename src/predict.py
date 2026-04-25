@@ -2,7 +2,10 @@ import tensorflow as tf
 import numpy as np
 import re
 import string
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+model_path = os.path.join(BASE_DIR, "models", "spam_model.keras")
 
 def custom_standardization(input_data):
     lowercase = tf.strings.lower(input_data)
@@ -17,7 +20,7 @@ def custom_standardization(input_data):
 
 # Load model
 model = tf.keras.models.load_model(
-    "models/spam_model.keras",
+    model_path,
     custom_objects={"custom_standardization": custom_standardization}
 )
 
