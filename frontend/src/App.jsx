@@ -17,10 +17,13 @@ function App() {
     setResult(null);
 
     try {
-      const res = await fetch(
-        `http://127.0.0.1:8000/predict?message=${encodeURIComponent(message)}`,
-        { method: "POST" }
-      );
+   const res = await fetch("http://127.0.0.1:8000/predict", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ message }),
+});
 
       if (!res.ok) {
         throw new Error("Server error. Try again.");
@@ -28,7 +31,7 @@ function App() {
 
       const data = await res.json();
 
-      if (!data || data.score === undefined) {
+      if (!data || data.confidence === undefined) {
         throw new Error("Invalid response from server");
       }
 

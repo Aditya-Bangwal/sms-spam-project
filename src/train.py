@@ -1,5 +1,6 @@
 import pandas as pd
 import tensorflow as tf
+
 from sklearn.utils import class_weight
 import numpy as np
 import os
@@ -7,7 +8,9 @@ os.environ["PYTHONUTF8"] = "1"
 import re
 
 import string
+from keras.saving import register_keras_serializable
 
+@register_keras_serializable()
 def custom_standardization(input_data):
     lowercase = tf.strings.lower(input_data)
     stripped_html = tf.strings.regex_replace(lowercase, '<br />', ' ')

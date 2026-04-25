@@ -5,6 +5,8 @@ import re
 import string
 import os
 import numpy as np
+from pydantic import BaseModel
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -21,7 +23,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# SAME function (required again)
+from keras.saving import register_keras_serializable
+
+@register_keras_serializable()
 def custom_standardization(input_data):
     lowercase = tf.strings.lower(input_data)
     stripped_html = tf.strings.regex_replace(lowercase, '<br />', ' ')
@@ -42,8 +46,12 @@ model = tf.keras.models.load_model(
 def home():
     return {"message": "Spam Classifier API Running"}
 
+class MessageRequest(BaseModel):
+    message: str
 @app.post("/predict")
-def predict(message: str):
+def predict(data: MessageRequest):
+    message = data.message
+    
     prediction = model.predict(tf.constant([message]))[0][0]
     result = "SPAM" if prediction > 0.4 else "HAM"
     
