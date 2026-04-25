@@ -8,6 +8,9 @@ import numpy as np
 from pydantic import BaseModel
 
 
+
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 model_path = os.path.join(BASE_DIR, "models", "spam_model.keras")
@@ -35,11 +38,22 @@ def custom_standardization(input_data):
         ''
     )
 
-# Load model
-model = tf.keras.models.load_model(
-    model_path,
-    custom_objects={"custom_standardization": custom_standardization}
-)
+
+print("🚀 APP STARTING...")
+
+print("📂 BASE_DIR:", BASE_DIR)
+print("📂 MODEL PATH:", model_path)
+print("📂 FILE EXISTS:", os.path.exists(model_path))
+
+try:
+    model = tf.keras.models.load_model(
+        model_path,
+        custom_objects={"custom_standardization": custom_standardization}
+    )
+    print("✅ MODEL LOADED SUCCESSFULLY")
+except Exception as e:
+    print("❌ MODEL LOAD FAILED:", e)
+    raise e
 
 
 @app.get("/")
