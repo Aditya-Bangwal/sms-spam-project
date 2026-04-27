@@ -113,12 +113,12 @@ model.fit(
 )
 
 
-model_dir = "models/spam_model.keras"
-if os.path.exists(model_dir):
-    shutil.rmtree(model_dir, ignore_errors=True)
+# model_dir = "models/spam_model.keras"
+# if os.path.exists(model_dir):
+#     shutil.rmtree(model_dir, ignore_errors=True)
 
 
-model.save(model_dir)
+# model.save(model_dir)
 
-print("✅ MODEL SAVED CLEANLY")
+model.save("models/spam_model.h5")
 

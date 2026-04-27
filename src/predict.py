@@ -10,7 +10,7 @@ print(tf.__version__)
 print(tf.keras)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-model_path = os.path.join(BASE_DIR, "models",  "spam_model.keras")
+model_path = os.path.join(BASE_DIR, "models", "spam_model.h5")
 
 def custom_standardization(input_data):
     lowercase = tf.strings.lower(input_data)

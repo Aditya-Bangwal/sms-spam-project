@@ -22,7 +22,7 @@ from pydantic import BaseModel
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-model_path = os.path.join(BASE_DIR, "models", "spam_model.keras")
+model_path = os.path.join(BASE_DIR, "models", "spam_model.h5")
 
 
 app = FastAPI()
