@@ -39,6 +39,7 @@ model=tf.keras.models.load_model(
      model_path,
     custom_objects={"custom_standardization": custom_standardization}
 )
+model.summary()
 
 def predict_message(message):
     vectorized = vectorizer(tf.constant([message]))

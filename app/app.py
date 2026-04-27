@@ -73,6 +73,7 @@ print("🚀 APP STARTING...")
 print("📂 BASE_DIR:", BASE_DIR)
 print("📂 MODEL PATH:", model_path)
 print("📂 FILE EXISTS:", os.path.exists(model_path))
+print("MODEL SIZE:", os.path.getsize(model_path))
 
 try:
     model = tf.keras.models.load_model(
