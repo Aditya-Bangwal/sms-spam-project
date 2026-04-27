@@ -4,9 +4,17 @@ import tensorflow as tf
 import re
 import string
 import os
-import shutil
-import numpy as np
+
 from pydantic import BaseModel
+
+
+
+
+
+
+
+# Load model
+
 
 
 
@@ -40,6 +48,26 @@ def custom_standardization(input_data):
     )
 
 
+vectorizer = tf.keras.layers.TextVectorization(
+    standardize=custom_standardization,
+    max_tokens=10000,
+    output_mode='int',
+    output_sequence_length=250
+)
+
+# load vocab
+vocab_path = os.path.join(BASE_DIR, "models", "vocab.txt")
+
+with open(vocab_path, "r", encoding="utf-8") as f:
+    vocab = [line.strip() for line in f]
+
+vectorizer.set_vocabulary(vocab)
+
+print("✅ VECTORIZER LOADED")
+
+
+
+
 print("🚀 APP STARTING...")
 
 print("📂 BASE_DIR:", BASE_DIR)
@@ -66,10 +94,12 @@ class MessageRequest(BaseModel):
 @app.post("/predict")
 def predict(data: MessageRequest):
     message = data.message
-    
-    prediction = model.predict(tf.constant([message]))[0][0]
+
+    vectorized = vectorizer([message])
+    prediction = model.predict(vectorized, verbose=0)[0][0]
+
     result = "SPAM" if prediction > 0.4 else "HAM"
-    
+
     return {
         "message": message,
         "prediction": result,

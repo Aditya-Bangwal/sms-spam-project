@@ -1,10 +1,11 @@
 import tensorflow as tf
-import numpy as np
+
 import re
 import string
 import os
 
-import tensorflow as tf
+
+
 print(tf.__version__)
 print(tf.keras)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,22 +21,32 @@ def custom_standardization(input_data):
         ''
     )
 
+vectorizer = tf.keras.layers.TextVectorization(
+    standardize=custom_standardization,
+    max_tokens=10000,
+    output_mode='int',
+    output_sequence_length=250
+)
 
+# load vocab
+with open("models/vocab.txt", "r", encoding="utf-8") as f:
+    vocab = [line.strip() for line in f]
+
+vectorizer.set_vocabulary(vocab)
 
 # Load model
 model=tf.keras.models.load_model(
-    "models/spam_model.keras",
+     model_path,
     custom_objects={"custom_standardization": custom_standardization}
 )
 
 def predict_message(message):
-    prediction = model.predict(tf.constant([message]))[0][0]
+    vectorized = vectorizer(tf.constant([message]))
+    
+    prediction = model.predict(vectorized, verbose=0)[0][0]
     print("Raw prediction:", prediction)
 
-    if prediction > 0.4:
-        return "SPAM"
-    else:
-        return "HAM"
+    return "SPAM" if prediction > 0.4 else "HAM"
 
 # Test
 if __name__ == "__main__":
