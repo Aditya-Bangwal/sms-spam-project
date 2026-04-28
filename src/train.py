@@ -81,7 +81,6 @@ with open("models/vocab.txt", "w", encoding="utf-8") as f:
 
 
 model = tf.keras.Sequential([
-   
     tf.keras.layers.Embedding(10000, 128),
 
     tf.keras.layers.GlobalAveragePooling1D(),
