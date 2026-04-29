@@ -25,8 +25,11 @@ Deployed Link: [ https://sms-spam-project-1.onrender.com ]
 
 Tech Stack
 Frontend: React (Vite)
+
 Backend:FastAPI
+
 Machine Learning:TensorFlow / Scikit-learn ,NumPy, Pandas
+
 Deployment: Render (Backend + Frontend)
 
 Dataset
